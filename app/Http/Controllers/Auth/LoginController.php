@@ -49,7 +49,9 @@ class LoginController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('facebook')
+                        ->setScopes(['user_posts'])
+                        ->redirect();
     }
 
     /**
@@ -59,9 +61,11 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
-        $facebookUser = Socialite::driver('facebook')->user();
-        $user = User::firstWhere('email', $facebookUser->email);
-       
+        $facebookUser = Socialite::driver('facebook')->stateless()->user();
+        $user = User::firstWhere('facebook_id', $facebookUser->id);
+        
+        session(['token' => $facebookUser->token]);
+        
         if (!$user) {
             $user = User::create([
                 'name' => $facebookUser->name,

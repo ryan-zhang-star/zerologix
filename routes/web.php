@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('login/twitter', 'App\Http\Controllers\Auth\LoginController@redirectToProvider')->name('loginWithFacebook');
 Route::get('login/facebook/callback', 'App\Http\Controllers\Auth\LoginController@handleProviderCallback');
+
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('posts', 'App\Http\Controllers\PostController@index');

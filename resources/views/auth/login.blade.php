@@ -68,7 +68,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <a class="btn btn-primary form-control" href="{{ route('loginWithFacebook') }}">
-                                    {{ __('Login with Twitter') }}
+                                    {{ __('Login with Facebook') }}
                                 </a>
                             </div>
                         </div>
