@@ -8,13 +8,14 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    {{ __('You are logged in!') }}
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <a href="{{ route('posts.index') }}">Posts</a>
+                        </li>
+                        <li class="list-group-item">
+                            <a href="{{ route('friends.index') }}">Friends</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
         </div>

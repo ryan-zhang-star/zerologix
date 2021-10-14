@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
+use App\Repositories\UserRepository;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -49,7 +50,9 @@ class LoginController extends Controller
      */
     public function redirectToProvider()
     {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('facebook')
+                        ->scopes(['user_posts'])
+                        ->redirect();
     }
 
     /**
@@ -57,11 +60,15 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function handleProviderCallback()
+    public function handleProviderCallback(UserRepository $userRepository)
     {
-        $facebookUser = Socialite::driver('facebook')->user();
-        $user = User::firstWhere('email', $facebookUser->email);
-       
+        $facebookUser = Socialite::driver('facebook')->stateless()->user();
+        $user = $userRepository->findWhere([
+                                   'facebook_id' => $facebookUser->id
+                               ])
+                               ->first();
+        session(['token' => $facebookUser->token]);
+        
         if (!$user) {
             $user = User::create([
                 'name' => $facebookUser->name,
