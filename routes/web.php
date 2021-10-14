@@ -16,8 +16,11 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('login/twitter', 'App\Http\Controllers\Auth\LoginController@redirectToProvider')->name('loginWithFacebook');
+Route::get('login/facebook', 'App\Http\Controllers\Auth\LoginController@redirectToProvider')->name('loginWithFacebook');
 Route::get('login/facebook/callback', 'App\Http\Controllers\Auth\LoginController@handleProviderCallback');
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
-Route::get('posts', 'App\Http\Controllers\PostController@index');
+Route::get('posts', 'App\Http\Controllers\PostController@index')->name('posts.index');
+Route::get('posts/{id}/comments', 'App\Http\Controllers\PostController@comments')->name('posts.comments');
+
+Route::get('friends', 'App\Http\Controllers\FriendController@index')->name('friends.index');
