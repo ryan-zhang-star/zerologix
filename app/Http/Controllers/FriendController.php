@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use GuzzleHttp\Client;
-use Illuminate\Http\Request;
+use App\Services\FriendService;
 
 class FriendController extends Controller
 {
+    private $friendService;
+
+    public function __construct(FriendService $friendService)
+    {
+        $this->friendService = $friendService;
+    }
+
     public function index()
     {
-        $client = new Client();
-        $id = auth()->user()->facebook_id;
-        $reponse = $client->request('get', "https://graph.facebook.com/v12.0/$id/friends", [
-            'query' => [
-                'access_token' => session('token')
-            ]
-        ]);
-        $reponse = json_decode($reponse->getBody()->getContents());
-        $friends = $reponse->data;
+        $user = auth()->user()->facebook_id;
+        $friends = $this->friendService->getUserFriends($user);
 
         return view('friends.index', compact('friends'));
     }

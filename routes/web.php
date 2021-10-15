@@ -21,6 +21,6 @@ Route::get('login/facebook/callback', 'App\Http\Controllers\Auth\LoginController
 
 Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
 Route::get('posts', 'App\Http\Controllers\PostController@index')->name('posts.index');
-Route::get('posts/{id}/comments', 'App\Http\Controllers\PostController@comments')->name('posts.comments');
+Route::get('posts/{post}/comments', 'App\Http\Controllers\PostController@comments')->name('posts.comments');
 
 Route::get('friends', 'App\Http\Controllers\FriendController@index')->name('friends.index');
